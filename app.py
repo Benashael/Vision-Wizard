@@ -100,12 +100,13 @@ if page not in exclude_input_pages:
 if page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Page")
     if "image" in st.session_state:
+        width, height = image.size
+        st.subheaer(f"Original Dimensions: {width} x {height}")
+        new_width = st.number_input("New Width", value=width, min_value=1, max_value=3000)
+        new_height = st.number_input("New Height", value=height, min_value=1, max_value=3000)
+        resized_image = image.resize((new_width, new_height))
         if st.button("🔄 Resize Image"):
-            width, height = image.size
-            st.write(f"Original Dimensions: {width} x {height}")
-            new_width = st.number_input("New Width", value=width, min_value=1, max_value=3000)
-            new_height = st.number_input("New Height", value=height, min_value=1, max_value=3000)
-            resized_image = image.resize((new_width, new_height))
+            st.subheaer('Resized Image')
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
             resized_img = Image.fromarray(img_array)
