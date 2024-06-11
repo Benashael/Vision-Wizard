@@ -108,7 +108,7 @@ if page == "Image Resizing 📏🔄":
         resized_image = image.resize((new_width, new_height))
         if st.button("🔄 Resize Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True
+            st.image(image, caption='Original Image', use_column_width=True)
             st.subheader('Resized Image')
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
