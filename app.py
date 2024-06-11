@@ -119,9 +119,9 @@ elif page == "Image Grayscale Conversion 🌑🔄":
     st.header("🌑🔄 Image Grayscale Conversion Page")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        st.subheader("🖼️ Original Image") 
-        st.image(image, caption='Original Image', use_column_width=True)
         if st.button("🌑 Apply Grayscale"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("⬛ Grayscale Image") 
             img_array = np.array(image)
             gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
@@ -134,9 +134,9 @@ elif page == "Edge Detection ✂️🔍":
     st.header("✂️🔍 Edge Detection Page")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        st.subheader("🖼️ Original Image") 
-        st.image(image, caption='Original Image', use_column_width=True)
         if st.button("✂️ Detect Edges"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("🔍 Image with Detected Edges") 
             img_array = np.array(image)
             gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
