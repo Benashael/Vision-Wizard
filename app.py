@@ -2,7 +2,6 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import cv2
-import io
 
 # Set up Streamlit app
 st.set_page_config(page_title="Vision Wizard", page_icon="🧙‍♂️", layout="wide")
@@ -17,19 +16,6 @@ def clear_session_state():
     st.session_state.pop("capture_image", None)
     st.session_state.pop("image", None)
     
-def download_image():
-    # Generate a sample image
-    image = Image.new("RGB", (100, 100), color=(255, 255, 255))
-    img_array = np.array(image)
-    
-    # Save the image to a buffer
-    buffer = io.BytesIO()
-    image.save(buffer, format="PNG")
-    img_bytes = buffer.getvalue()
-
-    # Download the image
-    st.download_button(label="⬇️ Download Image", data=img_bytes, file_name="image.png", mime="image/png")
-
 def get_image_input():
     # Check if image is already in session state
     if 'image' not in st.session_state:
@@ -124,7 +110,9 @@ if page == "Image Resizing 📏🔄":
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
             resized_img = Image.fromarray(img_array)
-            if st.button("⬇️ Download Resized Image"):
-                download_image()
+            st.download_button(label="Download Resized Image", 
+                       data=resized_img.tobytes(), 
+                       file_name="resized_image.png", 
+                       mime="image/png")
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
