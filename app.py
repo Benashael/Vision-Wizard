@@ -99,7 +99,7 @@ if page not in exclude_input_pages:
 # Page 2
 if page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Page")
-    if "image" in st.session_state:
+    if "image" in st.session_state and image is not None:
         width, height = image.size
         st.write(f"**Original Image Dimensions:** {width} x {height}")
         new_width = st.number_input("New Width", value=width, min_value=1, max_value=3000)
