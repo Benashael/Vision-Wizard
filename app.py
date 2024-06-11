@@ -94,7 +94,7 @@ if page not in exclude_input_pages:
     if st.button("🗑️ Clear Input"):
         clear_session_state()
       
-    st.info("⚠️ Click '🗑️ Clear Input' to reset the text input and file upload fields. This will clear all entered data and allow you to start fresh.")
+    st.info("⚠️ Click '🗑️ Clear Input' to reset the image upload fields. This will clear all entered data and allow you to start fresh.")
 
 # Page 2
 if page == "Image Resizing 📏🔄":
@@ -119,7 +119,7 @@ elif page == "Image Grayscale Conversion 🌑🔄":
     st.header("🌑🔄 Image Grayscale Conversion Page")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        if st.button("🌑 Apply Grayscale"):
+        if st.button("🌑 Perform Grayscale Conversion"):
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("⬛ Grayscale Image") 
@@ -134,7 +134,7 @@ elif page == "Edge Detection ✂️🔍":
     st.header("✂️🔍 Edge Detection Page")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        if st.button("✂️ Detect Edges"):
+        if st.button("✂️ Perform Edge Detection"):
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("🔍 Image with Detected Edges") 
