@@ -39,21 +39,22 @@ def get_image_input():
 
     if input_method == "📁 Upload Image":
         uploaded_file = st.file_uploader("Choose an image 📂", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            if not is_file_size_ok(uploaded_file):
-                st.error("❌ Uploaded image is too large. Please upload an image smaller than 10MB.")
-                return None
-            try:
-                image = Image.open(uploaded_file)
-                if is_image_complex(image):
-                    st.error("❌ Uploaded image is too complex to process. Please upload a simpler image.")
+        if st.button("📁 Submit Image"):
+            if uploaded_file is not None:
+                if not is_file_size_ok(uploaded_file):
+                    st.error("❌ Uploaded image is too large. Please upload an image smaller than 10MB.")
                     return None
-                st.session_state.image = image
-            except Exception as e:
-                st.error(f"❌ An error occurred: {str(e)}")
-                return None
-        else:
-            st.error("❌ Error: Please upload a file.")
+                try:
+                    image = Image.open(uploaded_file)
+                    if is_image_complex(image):
+                        st.error("❌ Uploaded image is too complex to process. Please upload a simpler image.")
+                        return None
+                    st.session_state.image = image
+                except Exception as e:
+                    st.error(f"❌ An error occurred: {str(e)}")
+                    return None
+            else:
+                st.error("❌ Error: Please upload a file.")
 
     elif input_method == "🖼️ Use Example Image":
         example_image_path = "example.jpg"  # Ensure this file is in the same directory
@@ -66,18 +67,19 @@ def get_image_input():
 
     elif input_method == "📷 Capture Image":
         capture_image = st.camera_input("Capture an image")
-        if capture_image is not None:
-            try:
-                image = Image.open(capture_image)
-                if is_image_complex(image):
-                    st.error("❌ Captured image is too complex to process. Please capture a simpler image.")
+        if st.button("📷 Submit Image"):
+            if capture_image is not None:
+                try:
+                    image = Image.open(capture_image)
+                    if is_image_complex(image):
+                        st.error("❌ Captured image is too complex to process. Please capture a simpler image.")
+                        return None
+                    st.session_state.image = image
+                except Exception as e:
+                    st.error(f"❌ An error occurred: {str(e)}")
                     return None
-                st.session_state.image = image
-            except Exception as e:
-                st.error(f"❌ An error occurred: {str(e)}")
-                return None
-        else:
-            st.error("❌ Error: Please upload a file.")
+            else:
+                st.error("❌ Error: Please upload a file.")
 
     return st.session_state.image
 
