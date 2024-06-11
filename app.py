@@ -101,18 +101,29 @@ if page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Page")
     if "image" in st.session_state and image is not None:
         width, height = image.size
-        st.write(f"**Original Image Dimensions:** {width} x {height}")
-        new_width = st.number_input("New Width", value=width, min_value=1, max_value=3000)
-        new_height = st.number_input("New Height", value=height, min_value=1, max_value=3000)
+        st.subheader(f"**Original Image Dimensions:** {width} x {height}")
+        new_width = st.number_input("New Width", value=width, min_value=1, max_value=10000)
+        new_height = st.number_input("New Height", value=height, min_value=1, max_value=10000)
         resized_image = image.resize((new_width, new_height))
         if st.button("🔄 Resize Image"):
             st.subheader('Resized Image')
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
             resized_img = Image.fromarray(img_array)
-            st.download_button(label="Download Resized Image", 
-                       data=resized_img.tobytes(), 
-                       file_name="resized_image.png", 
-                       mime="image/png")
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 3
+elif page == "Image Grayscale Conversion 🌑🔄":
+    st.header("🌑🔄 Image Grayscale Conversion Page")
+    if "image" in st.session_state and image is not None:
+        st.subheader("🖼️ Original Image") 
+        st.image(image, caption='Original Image', use_column_width=True)
+        if st.button("🌑 Apply Grayscale"):
+            st.subheader("⬛ Grayscale Image") 
+            img_array = np.array(image)
+            gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+            st.image(gray_img, caption='Grayscale Image', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
+        
