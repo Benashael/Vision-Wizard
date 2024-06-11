@@ -10,6 +10,11 @@ st.title("Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks")
 
 page = st.sidebar.radio("**🌐 Select a Page**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍"])
 
+def clear_session_state():
+    st.session_state.pop("input_method", None)
+    st.session_state.pop("uploaded_file", None)
+    st.session_state.pop("capture_image", None)
+    
 def get_image_input():
     # Check if image is already in session state
     if 'image' not in st.session_state:
@@ -28,7 +33,7 @@ def get_image_input():
         return file_size <= 10 * 1024 * 1024  # 10 MB limit
 
     # Choose input method
-    input_method = st.radio("Select Image Input Method: 📸",
+    input_method = st.radio("**Select Image Input Method:** 📸",
                             ("📁 Upload Image", "📷 Capture Image", "🖼️ Use Example Image"))
 
     if input_method == "📁 Upload Image":
