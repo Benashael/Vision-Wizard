@@ -106,7 +106,7 @@ if page == "Image Resizing 📏🔄":
         new_height = st.number_input("New Height", value=height, min_value=1, max_value=3000)
         resized_image = image.resize((new_width, new_height))
         if st.button("🔄 Resize Image"):
-            st.subheaer('Resized Image')
+            st.subheader('Resized Image')
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
             resized_img = Image.fromarray(img_array)
