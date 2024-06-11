@@ -94,7 +94,7 @@ if page not in exclude_input_pages:
     if st.button("🗑️ Clear Input"):
         clear_session_state()
       
-    st.info("⚠️ Click '🗑️ Clear Input' to reset the image upload fields. This will clear all entered data and allow you to start fresh.")
+    st.info("⚠️ Click '🗑️ Clear Input' to reset the image input fields. This will clear all entered data and allow you to start fresh.")
 
 # Page 2
 if page == "Image Resizing 📏🔄":
@@ -107,6 +107,8 @@ if page == "Image Resizing 📏🔄":
         new_height = st.number_input("New Height", value=height, min_value=1, max_value=6000)
         resized_image = image.resize((new_width, new_height))
         if st.button("🔄 Resize Image"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True
             st.subheader('Resized Image')
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
@@ -142,5 +144,20 @@ elif page == "Edge Detection ✂️🔍":
             gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
             edges = cv2.Canny(gray_img, 100, 200)
             st.image(edges, caption='Edges Detected', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 5
+elif page == "Image Rotation 🔄↪️":
+    st.header("🔄↪️ Image Rotation Page")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        angle = st.slider("Rotate Angle", min_value=0, max_value=360, value=0)
+        if st.button("↪️ Rotate Image"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("🔄 Rotated Image") 
+            rotated_image = image.rotate(angle)
+            st.image(rotated_image, caption=f'Image Rotated by {angle} degrees', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
