@@ -99,8 +99,13 @@ if page not in exclude_input_pages:
 # Page 2
 if page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Page")
-    if "image" in st.session_state and image is not None:
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        if "resize_clicked" not in st.session_state:
+            st.session_state.resize_clicked = False
         if st.button("✅ Perform Image Resizing"):
+            st.session_state.resize_clicked = True
+        if st.session_state.resize_clicked:
             width, height = image.size
             st.subheader(f"**Original Image Dimensions:** {width} x {height}")
             new_width = st.number_input("New Width", value=width, min_value=1, max_value=6000)
@@ -117,8 +122,13 @@ if page == "Image Resizing 📏🔄":
 # Page 3
 elif page == "Image Grayscale Conversion 🌑🔄":
     st.header("🌑🔄 Image Grayscale Conversion Page")
-    if "image" in st.session_state and image is not None:
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        if "resize_clicked" not in st.session_state:
+            st.session_state.resize_clicked = False
         if st.button("✅ Perform Image Grayscale Conversion"):
+            st.session_state.resize_clicked = True
+        if st.session_state.resize_clicked:
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
             if st.button("🌑 Apply Grayscale"):
