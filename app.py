@@ -96,6 +96,10 @@ if page not in exclude_input_pages:
       
     st.info("⚠️ Click '🗑️ Clear Input' to reset the text input and file upload fields. This will clear all entered data and allow you to start fresh.")
 
+if "current_page" in st.session_state and st.session_state.current_page != page:
+    st.session_state.resize_clicked = False
+st.session_state.current_page = page
+
 # Page 2
 if page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Page")
