@@ -110,9 +110,9 @@ if page == "Image Resizing 📏🔄":
             st.image(resized_image, caption='Resized Image', use_column_width=True)
             img_array = np.array(resized_image)
             resized_img = Image.fromarray(img_array)
-            st.download_button(label="Download Resized Image", 
+            st.download_button(label="⬇️ Download Resized Image", 
                                data=resized_img.tobytes(), 
-                               file_name="resized_image.png", 
-                               mime="image/png")
+                               file_name="resized_image.jpg", 
+                               mime="image/jpg")
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
