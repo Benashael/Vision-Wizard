@@ -54,7 +54,7 @@ def get_image_input():
                     st.error(f"❌ An error occurred: {str(e)}")
                     return None
             else:
-                st.error("❌ Error: Please upload a file.")
+                st.error("❌ Error: Please upload an image.")
 
     elif input_method == "🖼️ Use Example Image":
         example_image_path = "example.jpg"  # Ensure this file is in the same directory
@@ -79,7 +79,7 @@ def get_image_input():
                     st.error(f"❌ An error occurred: {str(e)}")
                     return None
             else:
-                st.error("❌ Error: Please upload a file.")
+                st.error("❌ Error: Please take a photo.")
 
     return st.session_state.image
 
@@ -100,17 +100,18 @@ if page not in exclude_input_pages:
 if page == "Image Resizing 📏🔄":
     if image is not None:
         st.header("Image Resizing 📏🔄")
-        width, height = image.size
-        st.write(f"Original Dimensions: {width} x {height}")
-        new_width = st.number_input("New Width", value=width, min_value=1, max_value=3000)
-        new_height = st.number_input("New Height", value=height, min_value=1, max_value=3000)
-        resized_image = image.resize((new_width, new_height))
-        st.image(resized_image, caption='Resized Image', use_column_width=True)
-        img_array = np.array(resized_image)
-        resized_img = Image.fromarray(img_array)
-        st.download_button(label="Download Resized Image", 
-                           data=resized_img.tobytes(), 
-                           file_name="resized_image.png", 
-                           mime="image/png")
+        if st.button("🔄 Resize Image"):
+            width, height = image.size
+            st.write(f"Original Dimensions: {width} x {height}")
+            new_width = st.number_input("New Width", value=width, min_value=1, max_value=3000)
+            new_height = st.number_input("New Height", value=height, min_value=1, max_value=3000)
+            resized_image = image.resize((new_width, new_height))
+            st.image(resized_image, caption='Resized Image', use_column_width=True)
+            img_array = np.array(resized_image)
+            resized_img = Image.fromarray(img_array)
+            st.download_button(label="Download Resized Image", 
+                               data=resized_img.tobytes(), 
+                               file_name="resized_image.png", 
+                               mime="image/png")
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
