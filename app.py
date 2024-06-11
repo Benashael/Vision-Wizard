@@ -14,6 +14,7 @@ def clear_session_state():
     st.session_state.pop("input_method", None)
     st.session_state.pop("uploaded_file", None)
     st.session_state.pop("capture_image", None)
+    st.session_state.pop("image", None)
     
 def get_image_input():
     # Check if image is already in session state
