@@ -1,2 +1,2 @@
-# Vision-Wizard
-Simplifying Computer Vision Tasks
+# Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks 
+
