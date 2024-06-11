@@ -101,16 +101,16 @@ if page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Page")
     if "image" in st.session_state and image is not None:
         if st.button("✅ Perform Image Resizing"):
-        width, height = image.size
-        st.subheader(f"**Original Image Dimensions:** {width} x {height}")
-        new_width = st.number_input("New Width", value=width, min_value=1, max_value=6000)
-        new_height = st.number_input("New Height", value=height, min_value=1, max_value=6000)
-        resized_image = image.resize((new_width, new_height))
-        if st.button("🔄 Resize Image"):
-            st.subheader('Resized Image')
-            st.image(resized_image, caption='Resized Image', use_column_width=True)
-            img_array = np.array(resized_image)
-            resized_img = Image.fromarray(img_array)
+            width, height = image.size
+            st.subheader(f"**Original Image Dimensions:** {width} x {height}")
+            new_width = st.number_input("New Width", value=width, min_value=1, max_value=6000)
+            new_height = st.number_input("New Height", value=height, min_value=1, max_value=6000)
+            resized_image = image.resize((new_width, new_height))
+            if st.button("🔄 Resize Image"):
+                st.subheader('Resized Image')
+                st.image(resized_image, caption='Resized Image', use_column_width=True)
+                img_array = np.array(resized_image)
+                resized_img = Image.fromarray(img_array)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
