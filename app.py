@@ -192,7 +192,7 @@ elif page == "Image Flipping ↔️🔄":
         img_array = np.array(image)
         if flip_option == "Horizontal Flip":
             flipped_image = cv2.flip(img_array, 1)
-        elif flip_type == "Diagonal Flip":
+        elif flip_option == "Diagonal Flip":
             flipped_image = image.transpose(Image.ROTATE_90).transpose(Image.FLIP_LEFT_RIGHT)
         else:
             flipped_image = cv2.flip(img_array, 0)
