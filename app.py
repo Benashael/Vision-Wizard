@@ -182,3 +182,22 @@ elif page == "Image Cropping ✂️🖼️":
             st.image(cropped_image, caption='Cropped Image', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 7
+elif page == "Image Flipping ↔️🔄":
+    st.header("↔️🔄 Image Flipping Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        flip_option = st.selectbox("Flip Option", ["Horizontal Flip", "Vertical Flip"])
+        img_array = np.array(image)
+        if flip_option == "Horizontal Flip":
+            flipped_image = cv2.flip(img_array, 1)
+        else:
+            flipped_image = cv2.flip(img_array, 0)
+        if st.button("↔️ Flip Image"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("↔️ Flipped Image")
+            st.image(flipped_image, caption=f'Image with {flip_option}', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
