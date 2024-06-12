@@ -219,7 +219,7 @@ elif page == "Color Space Conversion 🌈🔄":
             converted_img = image.convert("YCbCr")
         elif color_space == "HLS":
             converted_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2HLS)
-            converted_image = Image.fromarray(converted_image)
+            converted_img = Image.fromarray(converted_image)
         else:
             converted_img = img_array
         if st.button("📟 Convert Color Space"):
