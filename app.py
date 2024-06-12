@@ -188,10 +188,12 @@ elif page == "Image Flipping ↔️🔄":
     st.header("↔️🔄 Image Flipping Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        flip_option = st.radio("🔄 Flip Option", ["Horizontal Flip", "Vertical Flip"])
+        flip_option = st.radio("🔄 Flip Option", ["Horizontal Flip", "Vertical Flip", "Diagonal Flip"])
         img_array = np.array(image)
         if flip_option == "Horizontal Flip":
             flipped_image = cv2.flip(img_array, 1)
+        elif flip_type == "Diagonal Flip":
+            flipped_image = image.transpose(Image.ROTATE_90).transpose(Image.FLIP_LEFT_RIGHT)
         else:
             flipped_image = cv2.flip(img_array, 0)
         if st.button("↔️ Flip Image"):
@@ -207,12 +209,17 @@ elif page == "Color Space Conversion 🌈🔄":
     st.header("🌈🔄 Color Space Conversion Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        color_space = st.radio("🔴🟢🔵 Color Space", ["RGB", "HSV", "LAB"])
+        color_space = st.radio("🔴🟢🔵 Color Space", ["RGB", "HSV", "LAB", "HLS", "YCbCr"])
         img_array = np.array(image)
         if color_space == "HSV":
             converted_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2HSV)
         elif color_space == "LAB":
             converted_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2LAB)
+        elif color_space == "YCbCr":
+            converted_img = image.convert("YCbCr")
+        elif color_space == "HLS":
+            converted_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2HLS)
+            converted_image = Image.fromarray(converted_image)
         else:
             converted_img = img_array
         if st.button("📟 Convert Color Space"):
@@ -220,3 +227,5 @@ elif page == "Color Space Conversion 🌈🔄":
             st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("🌟 Converted Image")
             st.image(converted_img, caption=f'Image in {color_space} Color Space', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
