@@ -188,7 +188,7 @@ elif page == "Image Flipping ↔️🔄":
     st.header("↔️🔄 Image Flipping Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        flip_option = st.radio("🔄 Flip Option", ["Horizontal Flip", "Vertical Flip", "Diagonal Flip"])
+        flip_option = st.radio("🔄 **Flip Option**", ["Horizontal Flip", "Vertical Flip", "Diagonal Flip"])
         img_array = np.array(image)
         if flip_option == "Horizontal Flip":
             flipped_image = cv2.flip(img_array, 1)
@@ -209,7 +209,7 @@ elif page == "Color Space Conversion 🌈🔄":
     st.header("🌈🔄 Color Space Conversion Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        color_space = st.radio("🔴🟢🔵 Color Space", ["RGB", "HSV", "LAB", "HLS", "YCbCr"])
+        color_space = st.radio("🔴🟢🔵 **Color Space**", ["RGB", "HSV", "LAB", "HLS", "YCbCr"])
         img_array = np.array(image)
         if color_space == "HSV":
             converted_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2HSV)
