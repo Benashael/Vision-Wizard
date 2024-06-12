@@ -188,7 +188,7 @@ elif page == "Image Flipping ↔️🔄":
     st.header("↔️🔄 Image Flipping Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        flip_option = st.selectbox("Flip Option", ["Horizontal Flip", "Vertical Flip"])
+        flip_option = st.radio("Flip Option", ["Horizontal Flip", "Vertical Flip"])
         img_array = np.array(image)
         if flip_option == "Horizontal Flip":
             flipped_image = cv2.flip(img_array, 1)
