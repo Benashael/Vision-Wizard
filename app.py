@@ -259,3 +259,10 @@ elif page == "Image Blurring 🌫️🔄":
             st.image(blurred_image, caption=f'{blur_type} Applied', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 10
+elif page == "Histogram Equalization 📊✨":
+    st.header("📊✨ Histogram Equalization Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        if st.button("Perform Histogram Equalization"):
