@@ -83,6 +83,14 @@ def get_image_input():
 
     return st.session_state.image
 
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+def detect_faces(image):
+    # Convert PIL image to grayscale OpenCV image
+    gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
+    faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    return faces
+
 # List of pages to exclude the common input section
 exclude_input_pages = ["Home Page 🏠"]
 
@@ -274,4 +282,23 @@ elif page == "Histogram Equalization 📊✨":
             equalized_img = cv2.equalizeHist(gray_img)
             st.image(equalized_img, caption='Histogram Equalized Image', use_column_width=True)
     else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 11
+elif page == "Face Detection 😊🔍":
+    st.header("😊🔍 Face Detection Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        if st.button("😊 Detect Faces"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("🔍 Detected Faces")
+            face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+            img_array = np.array(image)
+            gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray_img, 1.1, 4)
+            for (x, y, w, h) in faces:
+                cv2.rectangle(img_array, (x, y), (x + w, y + h), (255, 0, 0), 2)
+            st.image(img_array, caption='Detected Faces', use_column_width=True)
+     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
