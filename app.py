@@ -8,7 +8,7 @@ st.set_page_config(page_title="Vision Wizard", page_icon="🧙‍♂️", layout
 
 st.title("Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks")
 
-page = st.sidebar.radio("**🌐 Select a Page**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍"])
+page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍"])
 
 def clear_session_state():
     st.session_state.pop("input_method", None)
@@ -98,7 +98,7 @@ if page not in exclude_input_pages:
 
 # Page 2
 if page == "Image Resizing 📏🔄":
-    st.header("📏🔄 Image Resizing Page")
+    st.header("📏🔄 Image Resizing Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
         width, height = image.size
@@ -118,7 +118,7 @@ if page == "Image Resizing 📏🔄":
 
 # Page 3
 elif page == "Image Grayscale Conversion 🌑🔄":
-    st.header("🌑🔄 Image Grayscale Conversion Page")
+    st.header("🌑🔄 Image Grayscale Conversion Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
         if st.button("🌑 Perform Grayscale Conversion"):
@@ -133,10 +133,10 @@ elif page == "Image Grayscale Conversion 🌑🔄":
         
 # Page 4
 elif page == "Edge Detection ✂️🔍":
-    st.header("✂️🔍 Edge Detection Page")
+    st.header("✂️🔍 Edge Detection Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        if st.button("✂️ Perform Edge Detection"):
+        if st.button("🔍 Perform Edge Detection"):
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("🔍 Image with Detected Edges") 
@@ -149,7 +149,7 @@ elif page == "Edge Detection ✂️🔍":
 
 # Page 5
 elif page == "Image Rotation 🔄↪️":
-    st.header("🔄↪️ Image Rotation Page")
+    st.header("🔄↪️ Image Rotation Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
         angle = st.slider("Rotate Angle", min_value=0, max_value=360, value=0)
@@ -159,5 +159,24 @@ elif page == "Image Rotation 🔄↪️":
             st.subheader("🔄 Rotated Image") 
             rotated_image = image.rotate(angle)
             st.image(rotated_image, caption=f'Image Rotated by {angle} degrees', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 6
+elif page == "Image Cropping ✂️🖼️:
+    st.header("✂️🖼️ Image Cropping Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        width, height = image.size
+        x = st.number_input("X Coordinate", value=0, min_value=0, max_value=width-1)
+        y = st.number_input("Y Coordinate", value=0, min_value=0, max_value=height-1)
+        new_width = st.number_input("Crop Width", value=width, min_value=1, max_value=width - x)
+        new_height = st.number_input("Crop Height", value=height, min_value=1, max_value=height - y)
+        if st.button("✂️ Crop Image"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("✂️ Cropped Image")
+            cropped_image = image.crop((x, y, x + new_width, y + new_height))
+            st.image(cropped_image, caption='Cropped Image', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
