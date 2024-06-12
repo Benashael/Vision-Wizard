@@ -300,5 +300,5 @@ elif page == "Face Detection 😊🔍":
             for (x, y, w, h) in faces:
                 cv2.rectangle(img_array, (x, y), (x + w, y + h), (255, 0, 0), 2)
             st.image(img_array, caption='Detected Faces', use_column_width=True)
-     else:
+    else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
