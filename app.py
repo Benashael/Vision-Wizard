@@ -168,10 +168,12 @@ elif page == "Image Cropping ✂️🖼️":
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
         width, height = image.size
-        x = st.number_input("X Coordinate", value=0, min_value=0, max_value=width-1)
-        y = st.number_input("Y Coordinate", value=0, min_value=0, max_value=height-1)
-        new_width = st.number_input("Crop Width", value=width, min_value=1, max_value=width - x)
-        new_height = st.number_input("Crop Height", value=height, min_value=1, max_value=height - y)
+        x = st.number_input("X Coordinate", value=0, min_value=0, max_value=width-1, step=1)
+        y = st.number_input("Y Coordinate", value=0, min_value=0, max_value=height-1, step=1)
+        max_crop_width = width - x
+        max_crop_height = height - y
+        new_width = st.number_input("Crop Width", value=max_crop_width, min_value=1, max_value=max_crop_width, step=1)
+        new_height = st.number_input("Crop Height", value=max_crop_height, min_value=1, max_value=max_crop_height, step=1)
         if st.button("✂️ Crop Image"):
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
