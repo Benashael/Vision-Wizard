@@ -163,7 +163,7 @@ elif page == "Image Rotation 🔄↪️":
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
 # Page 6
-elif page == "Image Cropping ✂️🖼️:
+elif page == "Image Cropping ✂️🖼️":
     st.header("✂️🖼️ Image Cropping Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
