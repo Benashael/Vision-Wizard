@@ -229,3 +229,33 @@ elif page == "Color Space Conversion 🌈🔄":
             st.image(converted_img, caption=f'Image in {color_space} Color Space', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 9
+elif page == "Image Blurring 🌫️🔄":
+    st.header("🌫️🔄 Image Blurring Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        blur_type = st.radio("🌫️ **Choose Blurring Effect**", ["Gaussian Blur", "Median Blur", "Bilateral Filter"])
+        opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        if blur_type == "Gaussian Blur":
+            ksize = st.slider("Kernel Size", min_value=1, max_value=50, value=5, step=2)
+            blurred_image = cv2.GaussianBlur(opencv_image, (ksize, ksize), 0)
+        elif blur_type == "Median Blur":
+            ksize = st.slider("Kernel Size", min_value=1, max_value=50, value=5, step=2)
+            if ksize % 2 == 0:
+                ksize += 1  # Kernel size must be odd for median blur
+            blurred_image = cv2.medianBlur(opencv_image, ksize)
+        elif blur_type == "Bilateral Filter":
+            d = st.slider("Diameter", min_value=1, max_value=50, value=9)
+            sigmaColor = st.slider("Sigma Color", min_value=1, max_value=100, value=75)
+            sigmaSpace = st.slider("Sigma Space", min_value=1, max_value=100, value=75)
+            blurred_image = cv2.bilateralFilter(opencv_image, d, sigmaColor, sigmaSpace)
+        if st.button("📟 Blur Image"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("👓 Blurred Image")
+            blurred_image = cv2.cvtColor(blurred_image, cv2.COLOR_BGR2RGB)
+            blurred_image = Image.fromarray(blurred_image)
+            st.image(blurred_image, caption=f'{blur_type} Applied', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
