@@ -293,12 +293,15 @@ elif page == "Face Detection 😊🔍":
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("🔍 Detected Faces")
-            face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-            img_array = np.array(image)
-            gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-            faces = face_cascade.detectMultiScale(gray_img, 1.1, 4)
-            for (x, y, w, h) in faces:
-                cv2.rectangle(img_array, (x, y), (x + w, y + h), (255, 0, 0), 2)
-            st.image(img_array, caption='Detected Faces', use_column_width=True)
+            faces = detect_faces(image)
+            if len(faces) == 0:
+                st.error("⚠️ No faces detected in the image. Please try another image.")
+            else:
+                st.success(f"😊 Detected {len(faces)} face(s).")
+                # Draw rectangles around the faces
+                draw_image = np.array(image.copy())
+                for (x, y, w, h) in faces:
+                    cv2.rectangle(draw_image, (x, y), (x+w, y+h), (255, 0, 0), 2)
+                st.image(draw_image, caption='Detected Faces', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
