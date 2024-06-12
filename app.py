@@ -265,4 +265,13 @@ elif page == "Histogram Equalization 📊✨":
     st.header("📊✨ Histogram Equalization Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        if st.button("Perform Histogram Equalization"):
+        if st.button("📊 Perform Histogram Equalization"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("✨ Histogram Equalized Image")
+            img_array = np.array(image)
+            gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+            equalized_img = cv2.equalizeHist(gray_img)
+            st.image(equalized_img, caption='Histogram Equalized Image', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
