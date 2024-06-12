@@ -201,3 +201,22 @@ elif page == "Image Flipping ↔️🔄":
             st.image(flipped_image, caption=f'Image with {flip_option}', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 8
+elif page == "Color Space Conversion 🌈🔄":
+    st.header("🌈🔄 Color Space Conversion Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        color_space = st.radio("🔴🟢🔵 Color Space", ["RGB", "HSV", "LAB"])
+        img_array = np.array(image)
+        if color_space == "HSV":
+            converted_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2HSV)
+        elif color_space == "LAB":
+            converted_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2LAB)
+        else:
+            converted_img = img_array
+        if st.button("📟 Convert Color Space"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("🌟 Converted Image")
+            st.image(converted_img, caption=f'Image in {color_space} Color Space', use_column_width=True)
