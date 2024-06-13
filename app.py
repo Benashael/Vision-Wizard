@@ -91,6 +91,10 @@ def detect_faces(image):
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
     return faces
 
+config_path = "yolov3.cfg"
+model_path = "yolov3.weights"
+labels_path = "coco.names"
+
 try:
     net = cv2.dnn.readNetFromDarknet(config_path, model_path)
     layer_names = net.getLayerNames()
