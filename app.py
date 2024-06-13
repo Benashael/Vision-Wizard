@@ -111,17 +111,29 @@ if page == "Home Page 🏠":
     st.header("Explore the following features:")
     st.markdown("""
     🔸 **Home Page 🏠**: Introduction and overview of the app.
+    
     🔸 **Image Resizing 📏🔄**: Resize your images to different dimensions.
+    
     🔸 **Image Grayscale Conversion 🌑🔄**: Convert images to grayscale.
+    
     🔸 **Edge Detection ✂️🔍**: Detect edges in images.
+    
     🔸 **Image Rotation 🔄↪️**: Rotate images to a desired angle.
+    
     🔸 **Image Cropping ✂️🖼️**: Crop images to focus on specific areas.
+    
     🔸 **Image Flipping ↔️🔄**: Flip images horizontally or vertically.
+    
     🔸 **Color Space Conversion 🌈🔄**: Convert images between different color spaces.
+    
     🔸 **Image Brightness/Contrast Adjustment ☀️🌑**: Adjust the brightness and contrast of images.
+    
     🔸 **Image Blurring 🌫️🔄**: Apply blurring effects to images.
+    
     🔸 **Histogram Equalization 📊✨**: Enhance the contrast of images using histogram equalization.
+    
     🔸 **Face Detection 😊🔍**: Detect faces in images.
+    
     🔸 **Image Segmentation 🧩📦**: Segment images into distinct regions.
     """)
 
