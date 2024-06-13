@@ -104,8 +104,29 @@ if page not in exclude_input_pages:
       
     st.info("⚠️ Click '🗑️ Clear Input' to reset the image input fields. This will clear all entered data and allow you to start fresh.")
 
+# Page 1
+if page == "Home Page 🏠":
+    st.subheader("Welcome to Vision Wizard! This app is designed to simplify various computer vision tasks with easy-to-use tools. Choose a task from the sidebar to get started.")
+    st.markdown("___________")
+    st.header("Explore the following features:")
+    st.markdown("""
+    🔸 **Home Page 🏠**: Introduction and overview of the app.
+    - **Image Resizing 📏🔄**: Resize your images to different dimensions.
+    - **Image Grayscale Conversion 🌑🔄**: Convert images to grayscale.
+    - **Edge Detection ✂️🔍**: Detect edges in images.
+    - **Image Rotation 🔄↪️**: Rotate images to a desired angle.
+    - **Image Cropping ✂️🖼️**: Crop images to focus on specific areas.
+    - **Image Flipping ↔️🔄**: Flip images horizontally or vertically.
+    - **Color Space Conversion 🌈🔄**: Convert images between different color spaces.
+    - **Image Brightness/Contrast Adjustment ☀️🌑**: Adjust the brightness and contrast of images.
+    - **Image Blurring 🌫️🔄**: Apply blurring effects to images.
+    - **Histogram Equalization 📊✨**: Enhance the contrast of images using histogram equalization.
+    - **Face Detection 😊🔍**: Detect faces in images.
+    - **Image Segmentation 🧩📦**: Segment images into distinct regions.
+    """)
+
 # Page 2
-if page == "Image Resizing 📏🔄":
+elif page == "Image Resizing 📏🔄":
     st.header("📏🔄 Image Resizing Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
