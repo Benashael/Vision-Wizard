@@ -385,7 +385,7 @@ elif page == "Object Tracking 📹🔍":
                     (x, y, w, h) = [int(v) for v in box]
                     cv2.rectangle(opencv_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 else:
-                    st.write("❌ Tracking failed")
+                    st.write("❌ Tracking failed. Try another tracker or a different region.")
                     break
             st.image(opencv_image, caption='Tracked Object', use_column_width=True)
     else:
