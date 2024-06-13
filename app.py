@@ -110,8 +110,6 @@ if page == "Home Page 🏠":
     st.markdown("___________")
     st.header("Explore the following features:")
     st.markdown("""
-    🔸 **Home Page 🏠**: Introduction and overview of the app.
-    
     🔸 **Image Resizing 📏🔄**: Resize your images to different dimensions.
     
     🔸 **Image Grayscale Conversion 🌑🔄**: Convert images to grayscale.
