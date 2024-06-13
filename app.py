@@ -144,14 +144,25 @@ elif page == "Edge Detection ✂️🔍":
     st.header("✂️🔍 Edge Detection Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
+        method = st.radio("✂️ **Select Edge Detection Method**", ["Canny", "Sobel", "Laplacian"])
+        opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+         if method == "Canny":
+            threshold1 = st.slider("Threshold 1", 0, 255, 100)
+            threshold2 = st.slider("Threshold 2", 0, 255, 200)
+            edges = cv2.Canny(opencv_image, threshold1, threshold2)
+        elif method == "Sobel":
+            dx = st.slider("dx", 0, 2, 1)
+            dy = st.slider("dy", 0, 2, 1)
+            ksize = st.slider("Kernel Size", 1, 7, 3)
+            edges = cv2.Sobel(opencv_image, cv2.CV_64F, dx, dy, ksize=ksize)
+        elif method == "Laplacian":
+            ksize = st.slider("Kernel Size", 1, 7, 3)
+            edges = cv2.Laplacian(opencv_image, cv2.CV_64F, ksize=ksize)
         if st.button("🔍 Perform Edge Detection"):
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
             st.subheader("🔍 Image with Detected Edges") 
-            img_array = np.array(image)
-            gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-            edges = cv2.Canny(gray_img, 100, 200)
-            st.image(edges, caption='Edges Detected', use_column_width=True)
+            st.image(edges, caption=f'Edges Detected using {method}', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
