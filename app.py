@@ -146,7 +146,7 @@ elif page == "Edge Detection ✂️🔍":
         image = st.session_state.image
         method = st.radio("✂️ **Select Edge Detection Method**", ["Canny", "Sobel", "Laplacian"])
         opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-         if method == "Canny":
+        if method == "Canny":
             threshold1 = st.slider("Threshold 1", 0, 255, 100)
             threshold2 = st.slider("Threshold 2", 0, 255, 200)
             edges = cv2.Canny(opencv_image, threshold1, threshold2)
