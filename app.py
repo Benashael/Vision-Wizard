@@ -8,7 +8,7 @@ st.set_page_config(page_title="Vision Wizard", page_icon="🧙‍♂️", layout
 
 st.title("Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks")
 
-page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍"])
+page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍", "Object Detection 📦🔍"])
 
 def clear_session_state():
     st.session_state.pop("input_method", None)
@@ -335,3 +335,58 @@ elif page == "Face Detection 😊🔍":
                 st.image(draw_image, caption='Detected Faces', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+elif page == "Object Detection 📦🔍" and image is not None:
+    st.header("Object Detection 📦🔍")
+    CONFIDENCE_THRESHOLD = 0.5
+    NMS_THRESHOLD = 0.4
+    model_path = "yolov3.weights"  # Make sure these files are in the same directory
+    config_path = "yolov3.cfg"
+    labels_path = "coco.names"
+
+    net = cv2.dnn.readNetFromDarknet(config_path, model_path)
+    layer_names = net.getLayerNames()
+    layer_names = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+
+    labels = open(labels_path).read().strip().split("\n")
+
+    # Convert PIL image to OpenCV format
+    opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+    (H, W) = opencv_image.shape[:2]
+
+    blob = cv2.dnn.blobFromImage(opencv_image, 1 / 255.0, (416, 416), swapRB=True, crop=False)
+    net.setInput(blob)
+    layer_outputs = net.forward(layer_names)
+
+    boxes = []
+    confidences = []
+    classIDs = []
+
+    for output in layer_outputs:
+        for detection in output:
+            scores = detection[5:]
+            classID = np.argmax(scores)
+            confidence = scores[classID]
+            if confidence > CONFIDENCE_THRESHOLD:
+                box = detection[0:4] * np.array([W, H, W, H])
+                (centerX, centerY, width, height) = box.astype("int")
+
+                x = int(centerX - (width / 2))
+                y = int(centerY - (height / 2))
+
+                boxes.append([x, y, int(width), int(height)])
+                confidences.append(float(confidence))
+                classIDs.append(classID)
+
+    idxs = cv2.dnn.NMSBoxes(boxes, confidences, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)
+
+    if len(idxs) > 0:
+        for i in idxs.flatten():
+            (x, y) = (boxes[i][0], boxes[i][1])
+            (w, h) = (boxes[i][2], boxes[i][3])
+            color = [int(c) for c in np.random.randint(0, 255, size=(3,))]
+            cv2.rectangle(opencv_image, (x, y), (x + w, y + h), color, 2)
+            text = "{}: {:.4f}".format(labels[classIDs[i]], confidences[i])
+            cv2.putText(opencv_image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+    st.image(opencv_image, caption='Detected Objects', use_column_width=True)
