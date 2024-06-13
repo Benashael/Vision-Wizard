@@ -354,5 +354,5 @@ elif page == "Image Segmentation 🧩📦":
             mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
             segmented_image = opencv_image * mask2[:, :, np.newaxis]
             st.image(segmented_image, caption='Segmented Image', use_column_width=True)
-     else:
+    else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
