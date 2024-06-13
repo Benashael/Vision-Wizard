@@ -8,7 +8,7 @@ st.set_page_config(page_title="Vision Wizard", page_icon="🧙‍♂️", layout
 
 st.title("Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks")
 
-page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍", "Image Segmentation 🧩📦", "Image Inpainting 🎨🧩"])
+page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍", "Image Segmentation 🧩📦"])
 
 def clear_session_state():
     st.session_state.pop("input_method", None)
@@ -356,32 +356,3 @@ elif page == "Image Segmentation 🧩📦":
             st.image(segmented_image, caption='Segmented Image', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
-
-elif page == "Image Inpainting 🎨🧩" and "image" in st.session_state and st.session_state.image is not None:
-    st.header("Image Inpainting 🎨🧩")
-    # Convert the PIL image to an OpenCV format
-    opencv_image = cv2.cvtColor(np.array(st.session_state.image), cv2.COLOR_RGB2BGR)
-
-    st.subheader("Draw mask over the area you want to inpaint")
-    st.write("Use your mouse to draw over the image")
-
-    # Convert to grayscale for masking
-    gray = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2GRAY)
-    mask = np.zeros_like(gray)
-    mask_stroke = np.zeros_like(gray)
-
-    drawing = st.checkbox("Draw mask", False)
-    if drawing:
-        if 'mask' not in st.session_state:
-            st.session_state.mask = np.zeros_like(mask)
-        
-        canvas_result = st.image_draw("Draw", mask.shape[1], mask.shape[0], drawing=st.session_state.mask)
-        st.session_state.mask = canvas_result.mask
-
-    mask = st.session_state.mask
-    inpainted_image = cv2.inpaint(opencv_image, mask, 3, cv2.INPAINT_TELEA)
-
-    st.image(inpainted_image, caption='Inpainted Image', use_column_width=True)
-else:
-    st.info("⚠️ Please upload or capture an image, or use an example image.")
-
