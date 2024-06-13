@@ -364,14 +364,14 @@ elif page == "Object Tracking 📹🔍":
         image = st.session_state.image
         tracker_type = st.radio("🔍 **Select Tracker**", ["BOOSTING", "MIL", "KCF", "TLD", "MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"])
         trackers = {
-            "BOOSTING": cv2.legacy.TrackerBoosting_create(),
-            "MIL": cv2.legacy.TrackerMIL_create(),
-            "KCF": cv2.legacy.TrackerKCF_create(),
-            "TLD": cv2.legacy.TrackerTLD_create(),
-            "MEDIANFLOW": cv2.legacy.TrackerMedianFlow_create(),
-            "GOTURN": cv2.legacy.TrackerGOTURN_create(),
-            "MOSSE": cv2.legacy.TrackerMOSSE_create(),
-            "CSRT": cv2.legacy.TrackerCSRT_create()
+            "BOOSTING": cv2.TrackerBoosting_create(),
+            "MIL": cv2.TrackerMIL_create(),
+            "KCF": cv2.TrackerKCF_create(),
+            "TLD": cv2.TrackerTLD_create(),
+            "MEDIANFLOW": cv2.TrackerMedianFlow_create(),
+            "GOTURN": cv2.TrackerGOTURN_create(),
+            "MOSSE": cv2.TrackerMOSSE_create(),
+            "CSRT": cv2.TrackerCSRT_create()
         }
         tracker = trackers[tracker_type]
         if st.button("📹 Track Objects"):
