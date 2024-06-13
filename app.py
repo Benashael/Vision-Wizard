@@ -362,14 +362,31 @@ elif page == "Object Tracking 📹🔍":
     st.header("📹🔍 Object Tracking Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
-        tracker_type = st.radio("📹 **Select Tracker**", ["BOOSTING", "MIL", "KCF", "TLD", "MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"])
+        tracker_type = st.radio("🔍 **Select Tracker**", ["BOOSTING", "MIL", "KCF", "TLD", "MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"])
         trackers = {
-            "BOOSTING": cv2.legacy.TrackerBoosting_create,
-            "MIL": cv2.legacy.TrackerMIL_create,
+            "BOOSTING": cv2.TrackerBoosting_create,
+            "MIL": cv2.TrackerMIL_create,
             "KCF": cv2.TrackerKCF_create,
-            "TLD": cv2.legacy.TrackerTLD_create,
-            "MEDIANFLOW": cv2.legacy.TrackerMedianFlow_create,
+            "TLD": cv2.TrackerTLD_create,
+            "MEDIANFLOW": cv2.TrackerMedianFlow_create,
             "GOTURN": cv2.TrackerGOTURN_create,
-            "MOSSE": cv2.legacy.TrackerMOSSE_create,
-            "CSRT": cv2.legacy.TrackerCSRT_create
+            "MOSSE": cv2.TrackerMOSSE_create,
+            "CSRT": cv2.TrackerCSRT_create
         }
+        tracker = trackers[tracker_type]
+        if st.button("📹 Track Objects"):
+            opencv_image = cv2.cvtColor(np.array(st.session_state.image), cv2.COLOR_RGB2BGR)
+            bbox = cv2.selectROI("Frame", opencv_image, fromCenter=False, showCrosshair=True)
+            tracker.init(opencv_image, bbox)
+            st.image(opencv_image, caption='Select region to track', use_column_width=True)
+            while True:
+                success, box = tracker.update(opencv_image)
+                if success:
+                    (x, y, w, h) = [int(v) for v in box]
+                    cv2.rectangle(opencv_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                else:
+                    st.write("❌ Tracking failed")
+                    break
+            st.image(opencv_image, caption='Tracked Object', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
