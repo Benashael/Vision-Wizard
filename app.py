@@ -8,7 +8,7 @@ st.set_page_config(page_title="Vision Wizard", page_icon="🧙‍♂️", layout
 
 st.title("Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks")
 
-page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍"])
+page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍"])
 
 def clear_session_state():
     st.session_state.pop("input_method", None)
@@ -252,6 +252,23 @@ elif page == "Color Space Conversion 🌈🔄":
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
 # Page 9
+elif page == "Image Brightness/Contrast Adjustment ☀️🌑":
+    st.header("☀️🌑 Image Brightness/Contrast Adjustment Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        brightness = st.slider("Adjust Brightness", -100, 100, 0)
+        contrast = st.slider("Adjust Contrast", -100, 100, 0)
+        if st.button("☀️ Adjust Brightness/Contrast"):
+            st.subheader("🖼️ Original Image") 
+            st.image(image, caption='Original Image', use_column_width=True)
+            st.subheader("📷 Adjusted Image")
+            opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+            adjusted = cv2.convertScaleAbs(opencv_image, alpha=1 + contrast / 100, beta=brightness)
+            st.image(adjusted, caption='Brightness/Contrast Adjusted Image', use_column_width=True)
+    else:
+        st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 10
 elif page == "Image Blurring 🌫️🔄":
     st.header("🌫️🔄 Image Blurring Feature")
     if "image" in st.session_state and st.session_state.image is not None:
@@ -281,7 +298,7 @@ elif page == "Image Blurring 🌫️🔄":
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
-# Page 10
+# Page 11
 elif page == "Histogram Equalization 📊✨":
     st.header("📊✨ Histogram Equalization Feature")
     if "image" in st.session_state and st.session_state.image is not None:
@@ -297,7 +314,7 @@ elif page == "Histogram Equalization 📊✨":
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
-# Page 11
+# Page 12
 elif page == "Face Detection 😊🔍":
     st.header("😊🔍 Face Detection Feature")
     if "image" in st.session_state and st.session_state.image is not None:
