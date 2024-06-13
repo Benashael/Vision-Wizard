@@ -91,6 +91,42 @@ def detect_faces(image):
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
     return faces
 
+try:
+    net = cv2.dnn.readNetFromDarknet(config_path, model_path)
+    layer_names = net.getLayerNames()
+    layer_names = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    labels = open(labels_path).read().strip().split("\n")
+except cv2.error as e:
+    st.error(f"Error loading YOLO model: {e}")
+    st.stop()
+
+def detect_objects(image):
+    (H, W) = image.shape[:2]
+    blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416), swapRB=True, crop=False)
+    net.setInput(blob)
+    layer_outputs = net.forward(layer_names)
+    
+    boxes = []
+    confidences = []
+    classIDs = []
+
+    for output in layer_outputs:
+        for detection in output:
+            scores = detection[5:]
+            classID = np.argmax(scores)
+            confidence = scores[classID]
+            if confidence > 0.5:
+                box = detection[0:4] * np.array([W, H, W, H])
+                (centerX, centerY, width, height) = box.astype("int")
+                x = int(centerX - (width / 2))
+                y = int(centerY - (height / 2))
+                boxes.append([x, y, int(width), int(height)])
+                confidences.append(float(confidence))
+                classIDs.append(classID)
+
+    idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
+    return boxes, confidences, classIDs, idxs
+    
 # List of pages to exclude the common input section
 exclude_input_pages = ["Home Page 🏠"]
 
@@ -338,47 +374,8 @@ elif page == "Face Detection 😊🔍":
 
 elif page == "Object Detection 📦🔍" and image is not None:
     st.header("Object Detection 📦🔍")
-    CONFIDENCE_THRESHOLD = 0.5
-    NMS_THRESHOLD = 0.4
-    model_path = "yolov3.weights"  # Make sure these files are in the same directory
-    config_path = "yolov3.cfg"
-    labels_path = "coco.names"
-
-    net = cv2.dnn.readNetFromDarknet(config_path, model_path)
-    layer_names = net.getLayerNames()
-    layer_names = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
-
-    labels = open(labels_path).read().strip().split("\n")
-
-    # Convert PIL image to OpenCV format
     opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-    (H, W) = opencv_image.shape[:2]
-
-    blob = cv2.dnn.blobFromImage(opencv_image, 1 / 255.0, (416, 416), swapRB=True, crop=False)
-    net.setInput(blob)
-    layer_outputs = net.forward(layer_names)
-
-    boxes = []
-    confidences = []
-    classIDs = []
-
-    for output in layer_outputs:
-        for detection in output:
-            scores = detection[5:]
-            classID = np.argmax(scores)
-            confidence = scores[classID]
-            if confidence > CONFIDENCE_THRESHOLD:
-                box = detection[0:4] * np.array([W, H, W, H])
-                (centerX, centerY, width, height) = box.astype("int")
-
-                x = int(centerX - (width / 2))
-                y = int(centerY - (height / 2))
-
-                boxes.append([x, y, int(width), int(height)])
-                confidences.append(float(confidence))
-                classIDs.append(classID)
-
-    idxs = cv2.dnn.NMSBoxes(boxes, confidences, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)
+    boxes, confidences, classIDs, idxs = detect_objects(opencv_image)
 
     if len(idxs) > 0:
         for i in idxs.flatten():
@@ -390,3 +387,5 @@ elif page == "Object Detection 📦🔍" and image is not None:
             cv2.putText(opencv_image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
     st.image(opencv_image, caption='Detected Objects', use_column_width=True)
+else:
+    st.info("⚠️ Please upload or capture an image, or use an example image.")
