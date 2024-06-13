@@ -8,7 +8,7 @@ st.set_page_config(page_title="Vision Wizard", page_icon="🧙‍♂️", layout
 
 st.title("Vision Wizard 🧙‍♂️✨: Simplifying Computer Vision Tasks")
 
-page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍", "Image Segmentation 🧩📦"])
+page = st.sidebar.radio("**🌐 Select a Feature**", ["Home Page 🏠", "Image Resizing 📏🔄", "Image Grayscale Conversion 🌑🔄", "Edge Detection ✂️🔍", "Image Rotation 🔄↪️", "Image Cropping ✂️🖼️", "Image Flipping ↔️🔄", "Color Space Conversion 🌈🔄", "Image Brightness/Contrast Adjustment ☀️🌑", "Image Blurring 🌫️🔄", "Histogram Equalization 📊✨", "Face Detection 😊🔍", "Image Segmentation 🧩📦", "Object Tracking 📹🔍"])
 
 def clear_session_state():
     st.session_state.pop("input_method", None)
@@ -356,3 +356,20 @@ elif page == "Image Segmentation 🧩📦":
             st.image(segmented_image, caption='Segmented Image', use_column_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
+
+# Page 13
+elif page == "Object Tracking 📹🔍":
+    st.header("📹🔍 Object Tracking Feature")
+    if "image" in st.session_state and st.session_state.image is not None:
+        image = st.session_state.image
+        tracker_type = st.radio("📹 **Select Tracker**", ["BOOSTING", "MIL", "KCF", "TLD", "MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"])
+        trackers = {
+            "BOOSTING": cv2.legacy.TrackerBoosting_create,
+            "MIL": cv2.legacy.TrackerMIL_create,
+            "KCF": cv2.TrackerKCF_create,
+            "TLD": cv2.legacy.TrackerTLD_create,
+            "MEDIANFLOW": cv2.legacy.TrackerMedianFlow_create,
+            "GOTURN": cv2.TrackerGOTURN_create,
+            "MOSSE": cv2.legacy.TrackerMOSSE_create,
+            "CSRT": cv2.legacy.TrackerCSRT_create
+        }
