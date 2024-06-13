@@ -151,13 +151,15 @@ elif page == "Edge Detection ✂️🔍":
             threshold2 = st.slider("Threshold 2", 0, 255, 200)
             edges = cv2.Canny(opencv_image, threshold1, threshold2)
         elif method == "Sobel":
-            dx = st.slider("dx", 0, 2, 1)
-            dy = st.slider("dy", 0, 2, 1)
-            ksize = st.slider("Kernel Size", 1, 7, 3)
+            dx = st.slider("dx", 0, 1, 1)
+            dy = st.slider("dy", 0, 1, 1)
+            ksize = st.slider("Kernel Size (must be odd)", 1, 31, 3, step=2)
             edges = cv2.Sobel(opencv_image, cv2.CV_64F, dx, dy, ksize=ksize)
+            edges = cv2.convertScaleAbs(edges)  # Convert the result to uint8
         elif method == "Laplacian":
-            ksize = st.slider("Kernel Size", 1, 7, 3)
+            ksize = st.slider("Kernel Size (must be odd)", 1, 31, 3, step=2)
             edges = cv2.Laplacian(opencv_image, cv2.CV_64F, ksize=ksize)
+            edges = cv2.convertScaleAbs(edges)  # Convert the result to uint8
         if st.button("🔍 Perform Edge Detection"):
             st.subheader("🖼️ Original Image") 
             st.image(image, caption='Original Image', use_column_width=True)
