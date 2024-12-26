@@ -147,9 +147,9 @@ elif page == "Image Resizing 📏🔄":
         resized_image = image.resize((new_width, new_height))
         if st.button("🔄 Resize Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader('Resized Image')
-            st.image(resized_image, caption='Resized Image', use_column_width=True)
+            st.image(resized_image, caption='Resized Image', use_container_width=True)
             img_array = np.array(resized_image)
             resized_img = Image.fromarray(img_array)
     else:
@@ -162,11 +162,11 @@ elif page == "Image Grayscale Conversion 🌑🔄":
         image = st.session_state.image
         if st.button("🌑 Perform Grayscale Conversion"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("⬛ Grayscale Image") 
             img_array = np.array(image)
             gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-            st.image(gray_img, caption='Grayscale Image', use_column_width=True)
+            st.image(gray_img, caption='Grayscale Image', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
         
@@ -193,9 +193,9 @@ elif page == "Edge Detection ✂️🔍":
             edges = cv2.convertScaleAbs(edges)  # Convert the result to uint8
         if st.button("🔍 Perform Edge Detection"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("🔍 Image with Detected Edges") 
-            st.image(edges, caption=f'Edges Detected using {method}', use_column_width=True)
+            st.image(edges, caption=f'Edges Detected using {method}', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -207,10 +207,10 @@ elif page == "Image Rotation 🔄↪️":
         angle = st.slider("Rotate Angle", min_value=0, max_value=360, value=0)
         if st.button("↪️ Rotate Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("🔄 Rotated Image") 
             rotated_image = image.rotate(angle)
-            st.image(rotated_image, caption=f'Image Rotated by {angle} degrees', use_column_width=True)
+            st.image(rotated_image, caption=f'Image Rotated by {angle} degrees', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -228,10 +228,10 @@ elif page == "Image Cropping ✂️🖼️":
         new_height = st.number_input("Crop Height", value=max_crop_height, min_value=1, max_value=max_crop_height, step=1)
         if st.button("✂️ Crop Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("✂️ Cropped Image")
             cropped_image = image.crop((x, y, x + new_width, y + new_height))
-            st.image(cropped_image, caption='Cropped Image', use_column_width=True)
+            st.image(cropped_image, caption='Cropped Image', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -250,9 +250,9 @@ elif page == "Image Flipping ↔️🔄":
             flipped_image = cv2.flip(img_array, 0)
         if st.button("↔️ Flip Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("↔️ Flipped Image")
-            st.image(flipped_image, caption=f'Image with {flip_option}', use_column_width=True)
+            st.image(flipped_image, caption=f'Image with {flip_option}', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -276,9 +276,9 @@ elif page == "Color Space Conversion 🌈🔄":
             converted_img = img_array
         if st.button("📟 Convert Color Space"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("🌟 Converted Image")
-            st.image(converted_img, caption=f'Image in {color_space} Color Space', use_column_width=True)
+            st.image(converted_img, caption=f'Image in {color_space} Color Space', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -291,11 +291,11 @@ elif page == "Image Brightness/Contrast Adjustment ☀️🌑":
         contrast = st.slider("Adjust Contrast", -100, 100, 0)
         if st.button("☀️ Adjust Brightness/Contrast"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("📷 Adjusted Image")
             opencv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
             adjusted = cv2.convertScaleAbs(opencv_image, alpha=1 + contrast / 100, beta=brightness)
-            st.image(adjusted, caption='Brightness/Contrast Adjusted Image', use_column_width=True)
+            st.image(adjusted, caption='Brightness/Contrast Adjusted Image', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -321,11 +321,11 @@ elif page == "Image Blurring 🌫️🔄":
             blurred_image = cv2.bilateralFilter(opencv_image, d, sigmaColor, sigmaSpace)
         if st.button("📟 Blur Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("👓 Blurred Image")
             blurred_image = cv2.cvtColor(blurred_image, cv2.COLOR_BGR2RGB)
             blurred_image = Image.fromarray(blurred_image)
-            st.image(blurred_image, caption=f'{blur_type} Applied', use_column_width=True)
+            st.image(blurred_image, caption=f'{blur_type} Applied', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -336,12 +336,12 @@ elif page == "Histogram Equalization 📊✨":
         image = st.session_state.image
         if st.button("📊 Perform Histogram Equalization"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("✨ Histogram Equalized Image")
             img_array = np.array(image)
             gray_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
             equalized_img = cv2.equalizeHist(gray_img)
-            st.image(equalized_img, caption='Histogram Equalized Image', use_column_width=True)
+            st.image(equalized_img, caption='Histogram Equalized Image', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -352,7 +352,7 @@ elif page == "Face Detection 😊🔍":
         image = st.session_state.image
         if st.button("😊 Detect Faces"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("🔍 Detected Faces")
             faces = detect_faces(image)
             if len(faces) == 0:
@@ -363,7 +363,7 @@ elif page == "Face Detection 😊🔍":
                 draw_image = np.array(image.copy())
                 for (x, y, w, h) in faces:
                     cv2.rectangle(draw_image, (x, y), (x+w, y+h), (255, 0, 0), 2)
-                st.image(draw_image, caption='Detected Faces', use_column_width=True)
+                st.image(draw_image, caption='Detected Faces', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
 
@@ -374,7 +374,7 @@ elif page == "Image Segmentation 🧩📦":
         image = st.session_state.image
         if st.button("🧩 Segment Image"):
             st.subheader("🖼️ Original Image") 
-            st.image(image, caption='Original Image', use_column_width=True)
+            st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("📦 Segmented Image")
             opencv_image = cv2.cvtColor(np.array(st.session_state.image), cv2.COLOR_RGB2BGR)
             mask = np.zeros(opencv_image.shape[:2], np.uint8)
@@ -384,6 +384,6 @@ elif page == "Image Segmentation 🧩📦":
             cv2.grabCut(opencv_image, mask, rect, bgd_model, fgd_model, 5, cv2.GC_INIT_WITH_RECT)
             mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
             segmented_image = opencv_image * mask2[:, :, np.newaxis]
-            st.image(segmented_image, caption='Segmented Image', use_column_width=True)
+            st.image(segmented_image, caption='Segmented Image', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
