@@ -373,17 +373,29 @@ elif page == "Image Segmentation 🧩📦":
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
         if st.button("🧩 Segment Image"):
-            st.subheader("🖼️ Original Image") 
+            st.subheader("🖼️ Original Image")
             st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("📦 Segmented Image")
+            # Convert session state image to OpenCV format
             opencv_image = cv2.cvtColor(np.array(st.session_state.image), cv2.COLOR_RGB2BGR)
+            # Sliders for user-adjustable parameters
+            iterations = st.slider("Number of Iterations", min_value=1, max_value=10, value=5, step=1)
+            rect_x = st.slider("Rectangle X-coordinate", min_value=0, max_value=opencv_image.shape[1] // 2, value=50)
+            rect_y = st.slider("Rectangle Y-coordinate", min_value=0, max_value=opencv_image.shape[0] // 2, value=50)
+            rect_width = st.slider("Rectangle Width", min_value=50, max_value=opencv_image.shape[1], value=opencv_image.shape[1] - 50)
+            rect_height = st.slider("Rectangle Height", min_value=50, max_value=opencv_image.shape[0], value=opencv_image.shape[0] - 50)
+            # Create the mask and models
             mask = np.zeros(opencv_image.shape[:2], np.uint8)
             bgd_model = np.zeros((1, 65), np.float64)
-            fgd_model = np.zeros((1, 65), np.float64) 
-            rect = (50, 50, opencv_image.shape[1] - 50, opencv_image.shape[0] - 50)
-            cv2.grabCut(opencv_image, mask, rect, bgd_model, fgd_model, 5, cv2.GC_INIT_WITH_RECT)
+            fgd_model = np.zeros((1, 65), np.float64)
+            # Define the rectangle
+            rect = (rect_x, rect_y, rect_width, rect_height)
+            # Perform GrabCut
+            cv2.grabCut(opencv_image, mask, rect, bgd_model, fgd_model, iterations, cv2.GC_INIT_WITH_RECT)
+            # Apply the mask to segment the image
             mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
             segmented_image = opencv_image * mask2[:, :, np.newaxis]
+            # Display the segmented image
             st.image(segmented_image, caption='Segmented Image', use_container_width=True)
     else:
         st.info("⚠️ Please upload or capture an image, or use an example image.")
