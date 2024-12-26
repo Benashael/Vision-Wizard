@@ -372,6 +372,8 @@ elif page == "Image Segmentation 🧩📦":
     st.header("🧩📦 Image Segmentation Feature")
     if "image" in st.session_state and st.session_state.image is not None:
         image = st.session_state.image
+        # Convert session state image to OpenCV format
+        opencv_image = cv2.cvtColor(np.array(st.session_state.image), cv2.COLOR_RGB2BGR)
         # Sliders for user-adjustable parameters
         iterations = st.slider("Number of Iterations", min_value=1, max_value=10, value=5, step=1)
         rect_x = st.slider("Rectangle X-coordinate", min_value=0, max_value=opencv_image.shape[1] // 2, value=50)
@@ -382,8 +384,6 @@ elif page == "Image Segmentation 🧩📦":
             st.subheader("🖼️ Original Image")
             st.image(image, caption='Original Image', use_container_width=True)
             st.subheader("📦 Segmented Image")
-            # Convert session state image to OpenCV format
-            opencv_image = cv2.cvtColor(np.array(st.session_state.image), cv2.COLOR_RGB2BGR)
             # Create the mask and models
             mask = np.zeros(opencv_image.shape[:2], np.uint8)
             bgd_model = np.zeros((1, 65), np.float64)
